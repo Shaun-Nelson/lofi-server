@@ -1,13 +1,13 @@
 import { describe, it, expect, jest, beforeEach } from '@jest/globals';
 import { Request, Response, NextFunction } from 'express';
 
-import { HttpError } from '../utils/errors';
-import * as loggerModule from '../utils/logger';
+import { HttpError } from '../../utils/errors';
+import * as loggerModule from '../../utils/logger';
 
-import { errorHandler } from './errorHandler';
+import { errorHandler } from '../../middlewares/errorHandler.middleware';
 
 // Mock the logger
-jest.mock('../utils/logger', () => ({
+jest.mock('../../utils/logger', () => ({
   logger: {
     error: jest.fn(),
     warn: jest.fn(),
@@ -18,7 +18,6 @@ jest.mock('../utils/logger', () => ({
 describe('errorHandler middleware', () => {
   let mockReq: Partial<Request>;
   let mockRes: Partial<Response>;
-  let mockNext: NextFunction;
   let statusMock: jest.Mock;
   let jsonMock: jest.Mock;
 
@@ -26,17 +25,14 @@ describe('errorHandler middleware', () => {
     mockReq = {};
     jsonMock = jest.fn();
     statusMock = jest.fn(() => ({ json: jsonMock }));
-    mockRes = {
-      status: statusMock as unknown as Response['status'],
-    };
-    mockNext = jest.fn() as NextFunction;
+    mockRes = { status: statusMock as unknown as Response["status"] };
     jest.clearAllMocks();
   });
 
   it('should handle HttpError with status and message', () => {
     const error = new HttpError(404, 'Resource not found');
 
-    errorHandler(error, mockReq as Request, mockRes as Response, mockNext);
+    errorHandler(error, mockReq as Request, mockRes as Response);
 
     expect(statusMock).toHaveBeenCalledWith(404);
     expect(jsonMock).toHaveBeenCalledWith({
@@ -49,7 +45,7 @@ describe('errorHandler middleware', () => {
     const details = { field: 'email', reason: 'invalid format' };
     const error = new HttpError(400, 'Validation failed', details);
 
-    errorHandler(error, mockReq as Request, mockRes as Response, mockNext);
+    errorHandler(error, mockReq as Request, mockRes as Response);
 
     expect(statusMock).toHaveBeenCalledWith(400);
     expect(jsonMock).toHaveBeenCalledWith({
@@ -61,7 +57,7 @@ describe('errorHandler middleware', () => {
   it('should handle generic Error as 500', () => {
     const error = new Error('Something went wrong');
 
-    errorHandler(error, mockReq as Request, mockRes as Response, mockNext);
+    errorHandler(error, mockReq as Request, mockRes as Response);
 
     expect(statusMock).toHaveBeenCalledWith(500);
     expect(jsonMock).toHaveBeenCalledWith({
@@ -73,7 +69,7 @@ describe('errorHandler middleware', () => {
   it('should log 500+ errors with logger.error', () => {
     const error = new HttpError(500, 'Server error');
 
-    errorHandler(error, mockReq as Request, mockRes as Response, mockNext);
+    errorHandler(error, mockReq as Request, mockRes as Response);
 
     expect(loggerModule.logger.error).toHaveBeenCalledWith(error);
     expect(loggerModule.logger.warn).not.toHaveBeenCalled();
@@ -83,7 +79,7 @@ describe('errorHandler middleware', () => {
     const details = { info: 'test' };
     const error = new HttpError(400, 'Bad request', details);
 
-    errorHandler(error, mockReq as Request, mockRes as Response, mockNext);
+    errorHandler(error, mockReq as Request, mockRes as Response);
 
     expect(loggerModule.logger.warn).toHaveBeenCalledWith('[400] Bad request', details);
     expect(loggerModule.logger.debug).toHaveBeenCalledWith(error);
@@ -93,7 +89,7 @@ describe('errorHandler middleware', () => {
   it('should log 401 errors with logger.warn', () => {
     const error = new HttpError(401, 'Unauthorized');
 
-    errorHandler(error, mockReq as Request, mockRes as Response, mockNext);
+    errorHandler(error, mockReq as Request, mockRes as Response);
 
     expect(loggerModule.logger.warn).toHaveBeenCalledWith('[401] Unauthorized', undefined);
     expect(loggerModule.logger.debug).toHaveBeenCalledWith(error);
@@ -102,7 +98,7 @@ describe('errorHandler middleware', () => {
   it('should log 403 errors with logger.warn', () => {
     const error = new HttpError(403, 'Forbidden');
 
-    errorHandler(error, mockReq as Request, mockRes as Response, mockNext);
+    errorHandler(error, mockReq as Request, mockRes as Response);
 
     expect(loggerModule.logger.warn).toHaveBeenCalledWith('[403] Forbidden', undefined);
     expect(loggerModule.logger.error).not.toHaveBeenCalled();
@@ -111,7 +107,7 @@ describe('errorHandler middleware', () => {
   it('should log 404 errors with logger.warn', () => {
     const error = new HttpError(404, 'Not found');
 
-    errorHandler(error, mockReq as Request, mockRes as Response, mockNext);
+    errorHandler(error, mockReq as Request, mockRes as Response);
 
     expect(loggerModule.logger.warn).toHaveBeenCalledWith('[404] Not found', undefined);
   });
@@ -119,7 +115,7 @@ describe('errorHandler middleware', () => {
   it('should log generic errors with logger.error', () => {
     const error = new Error('Unexpected error');
 
-    errorHandler(error, mockReq as Request, mockRes as Response, mockNext);
+    errorHandler(error, mockReq as Request, mockRes as Response);
 
     expect(loggerModule.logger.error).toHaveBeenCalledWith(error);
   });
@@ -127,7 +123,7 @@ describe('errorHandler middleware', () => {
   it('should handle edge case with exactly 500 status', () => {
     const error = new HttpError(500, 'Server error');
 
-    errorHandler(error, mockReq as Request, mockRes as Response, mockNext);
+    errorHandler(error, mockReq as Request, mockRes as Response);
 
     expect(loggerModule.logger.error).toHaveBeenCalledWith(error);
     expect(statusMock).toHaveBeenCalledWith(500);
@@ -136,7 +132,7 @@ describe('errorHandler middleware', () => {
   it('should handle edge case with exactly 499 status', () => {
     const error = new HttpError(499, 'Client closed request');
 
-    errorHandler(error, mockReq as Request, mockRes as Response, mockNext);
+    errorHandler(error, mockReq as Request, mockRes as Response);
 
     expect(loggerModule.logger.warn).toHaveBeenCalled();
     expect(loggerModule.logger.error).not.toHaveBeenCalled();
@@ -145,7 +141,7 @@ describe('errorHandler middleware', () => {
   it('should send proper JSON response structure', () => {
     const error = new HttpError(418, "I'm a teapot");
 
-    errorHandler(error, mockReq as Request, mockRes as Response, mockNext);
+    errorHandler(error, mockReq as Request, mockRes as Response);
 
     expect(jsonMock).toHaveBeenCalledWith(expect.objectContaining({
       error: expect.any(String),

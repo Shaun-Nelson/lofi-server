@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { getSound } from "../services/sound.service";
 
+// GET /api/sound/:id
 export async function getSoundById(
   req: Request,
   res: Response,

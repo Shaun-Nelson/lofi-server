@@ -1,14 +1,9 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 
 import { HttpError } from "../utils/errors";
 import { logger } from "../utils/logger";
 
-export const errorHandler = (
-  err: Error,
-  _req: Request,
-  res: Response,
-  _next: NextFunction
-) => {
+export const errorHandler = (err: Error, _req: Request, res: Response) => {
   const status = err instanceof HttpError ? err.status : 500;
   const message =
     err instanceof HttpError ? err.message : "Internal Server Error";
