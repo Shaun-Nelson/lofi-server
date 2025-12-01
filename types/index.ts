@@ -1,5 +1,3 @@
-import { Types } from "mongoose";
-
 export type SoundId =
   | "rain"
   | "vinyl"
@@ -12,7 +10,9 @@ export interface Sound {
   id: SoundId;
   name: string;
   fileUrl: string;
-  defaultVolume: number;
+  volume: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface MixSoundConfig {
@@ -22,7 +22,6 @@ export interface MixSoundConfig {
 }
 
 export interface Mix {
-  _id: Types.ObjectId;
   name: string;
   sounds: MixSoundConfig[];
   createdAt: Date;

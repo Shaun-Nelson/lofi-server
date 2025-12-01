@@ -28,7 +28,11 @@ describe("mix controller", () => {
 
     await getMixById(req as Request, res as Response, next);
 
-    expect(getMixMock).toHaveBeenCalledWith(req as Request, res as Response, next);
+    expect(getMixMock).toHaveBeenCalledWith(
+      req as Request,
+      res as Response,
+      next
+    );
     expect(json).toHaveBeenCalledWith({ result: expect.any(Promise) });
   });
 
@@ -51,8 +55,12 @@ describe("mix controller", () => {
 
     await postMix(req as Request, res as Response, next);
 
-    expect(createMixMock).toHaveBeenCalledWith(req as Request, res as Response, next);
-    expect(json).toHaveBeenCalledWith({ results: payload });
+    expect(createMixMock).toHaveBeenCalledWith(
+      req as Request,
+      res as Response,
+      next
+    );
+    expect(json).toHaveBeenCalledWith({ result: payload });
     expect(next).not.toHaveBeenCalled();
   });
 

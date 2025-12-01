@@ -1,11 +1,11 @@
-import { app } from "./app.ts";
-import { connectDB } from "./config/database";
+import { app } from "./app";
+import { connectDB } from "./database/connection";
 import { logger } from "./utils/logger";
 import { environment } from "./config/environment";
 
 const startServer = async () => {
   try {
-    await connectDB;
+    await connectDB();
 
     app.listen(environment.PORT, environment.HOSTNAME, () => {
       logger.info(

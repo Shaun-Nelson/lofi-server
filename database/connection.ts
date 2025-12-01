@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { logger } from "../utils/logger";
-import { environment } from "./environment";
+import { environment } from "../config/environment";
 
 export const connectDB = async (uri?: string) => {
   const mongoUri =
@@ -27,6 +27,8 @@ export const connectDB = async (uri?: string) => {
     logger.warn("MongoDB disconnected");
   });
 
-  await mongoose.connect(mongoUri);
+  await mongoose.connect(mongoUri, {
+    serverSelectionTimeoutMS: environment.DB_CONNECT_TIMEOUT_MS,
+  });
   return mongoose.connection;
 };

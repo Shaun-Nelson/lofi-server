@@ -9,4 +9,5 @@ export const environment = {
   MONGO_URI: process.env.MONGO_URI,
   MONGO_URI_TEST: process.env.MONGO_URI_TEST,
   LOG_LEVEL: process.env.LOG_LEVEL || "info",
+  DB_CONNECT_TIMEOUT_MS: Number(process.env.DB_CONNECT_TIMEOUT_MS) || 5000,
 };

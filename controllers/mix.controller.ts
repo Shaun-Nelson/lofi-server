@@ -21,7 +21,7 @@ export async function postMix(req: Request, res: Response, next: NextFunction) {
   try {
     const newMix = await createMix(req, res, next);
 
-    res.json({ results: newMix });
+    res.json({ result: newMix });
   } catch (err) {
     next(err);
   }

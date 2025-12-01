@@ -14,7 +14,7 @@ const SoundSchema = new Schema<ISound>(
       trim: true,
     },
     fileUrl: { type: String, required: true, unique: true },
-    defaultVolume: {
+    volume: {
       type: Number,
       default: 50,
       min: 0,
