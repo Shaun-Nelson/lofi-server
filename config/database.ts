@@ -1,16 +1,13 @@
 import mongoose from "mongoose";
 import { logger } from "../utils/logger";
 import { environment } from "./environment";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 export const connectDB = async (uri?: string) => {
   const mongoUri =
     uri ||
-    (process.env.NODE_ENV !== "test"
-      ? environment.MONGO_URI
-      : environment.MONGO_URI_TEST);
+    (process.env.NODE_ENV === "test"
+      ? environment.MONGO_URI_TEST
+      : environment.MONGO_URI);
 
   if (!mongoUri) {
     throw new Error("MONGO_URI is not defined");
