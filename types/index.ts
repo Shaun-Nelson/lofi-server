@@ -9,14 +9,14 @@ export type SoundId =
   | "keyboard";
 
 export interface Sound {
-  _id: Types.ObjectId;
+  id: SoundId;
   name: string;
   fileUrl: string;
   defaultVolume: number;
 }
 
 export interface MixSoundConfig {
-  _id: Types.ObjectId;
+  soundId: SoundId;
   volume: number;
   enabled: boolean;
 }

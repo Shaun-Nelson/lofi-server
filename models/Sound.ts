@@ -4,6 +4,7 @@ import { Sound } from "../types/index";
 export interface ISound extends Document, Sound {}
 
 const SoundSchema = new Schema<ISound>({
+  id: { type: String, required: true, unique: true },
   name: {
     type: String,
     required: true,

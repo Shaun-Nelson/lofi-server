@@ -1,10 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import SoundModel from "../models/Sound";
 
-export function getSound(req: Request, res: Response, next: NextFunction) {
+export async function getSound(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
-    const soundId = req.body._id;
-    const sound = SoundModel.findById(soundId);
+    const sound = await SoundModel.find(req.body.id);
 
     return sound;
   } catch (err) {
