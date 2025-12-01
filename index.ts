@@ -5,9 +5,7 @@ import { environment } from "./config/environment";
 
 const startServer = async () => {
   try {
-    if (process.env.NODE_ENV !== "test") {
-      await connectDB;
-    }
+    await connectDB;
 
     app.listen(environment.PORT, environment.HOSTNAME, () => {
       logger.info(

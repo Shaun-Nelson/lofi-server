@@ -4,7 +4,8 @@ import { rateLimit } from "express-rate-limit";
 import helmet from "helmet";
 import { environment } from "./config/environment";
 import { errorHandler } from "./middlewares/errorHandler";
-// import mixRoutes from "./routes/mixRoutes"
+import soundRoutes from "./routes/sound.routes";
+import mixRoutes from "./routes/mix.routes";
 
 export const app = express();
 
@@ -23,6 +24,7 @@ app.use(
 app.use(limiter);
 app.use(express.json());
 
-// app.use("/api/mix", mixRoutes)
+app.use("/api/sound", soundRoutes);
+app.use("/api/mix", mixRoutes);
 
 app.use(errorHandler);

@@ -24,7 +24,7 @@ export interface MixSoundConfig {
 export interface Mix {
   _id: Types.ObjectId;
   name: string;
+  sounds: MixSoundConfig[];
   createdAt: Date;
   updatedAt: Date;
-  sounds: MixSoundConfig[];
 }
