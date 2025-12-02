@@ -10,7 +10,7 @@ export async function getMixById(
   try {
     const mix = await getMix(req, res, next);
 
-    res.json({ result: mix });
+    res.json(mix);
   } catch (err) {
     next(err);
   }
@@ -21,7 +21,7 @@ export async function postMix(req: Request, res: Response, next: NextFunction) {
   try {
     const newMix = await createMix(req, res, next);
 
-    res.json({ result: newMix });
+    res.json(newMix);
   } catch (err) {
     next(err);
   }

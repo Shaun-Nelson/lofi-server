@@ -7,7 +7,7 @@ export async function getSound(
   next: NextFunction
 ) {
   try {
-    const sound = await SoundModel.find(req.body.id);
+    const sound = await SoundModel.findOne({ id: req.params.id });
 
     return sound;
   } catch (err) {
