@@ -3,7 +3,7 @@ import MixModel from "../models/Mix";
 
 export async function getMix(req: Request, res: Response, next: NextFunction) {
   try {
-    const mix = await MixModel.find(req.body.name);
+    const mix = await MixModel.findOne({ name: req.params.id });
 
     return mix;
   } catch (err) {

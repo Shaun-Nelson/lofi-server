@@ -1,0 +1,154 @@
+{
+  "info": {
+    "name": "Lo-Fi Server API",
+    "description": "Collection for testing Lo-Fi server endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Sounds",
+      "item": [
+        {
+          "name": "Get Sound by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"rain\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8081/api/sound/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "sound", ""]
+            },
+            "description": "Get a sound by ID. Available IDs: rain, vinyl, piano, cafe, birds, keyboard"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Mixes",
+      "item": [
+        {
+          "name": "Get Mix by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8081/api/mix/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "mix", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "your-mix-id-here",
+                  "description": "The MongoDB ObjectId or name of the mix"
+                }
+              ]
+            },
+            "description": "Get a mix by its ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Create New Mix - Rainy Cafe",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"rainy-cafe\",\n  \"sounds\": [\n    {\n      \"soundId\": \"rain\",\n      \"volume\": 70,\n      \"enabled\": true\n    },\n    {\n      \"soundId\": \"cafe\",\n      \"volume\": 50,\n      \"enabled\": true\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8081/api/mix/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "mix", ""]
+            },
+            "description": "Create a new mix with rain and cafe sounds"
+          },
+          "response": []
+        },
+        {
+          "name": "Create New Mix - Study Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"study-session\",\n  \"sounds\": [\n    {\n      \"soundId\": \"piano\",\n      \"volume\": 60,\n      \"enabled\": true\n    },\n    {\n      \"soundId\": \"vinyl\",\n      \"volume\": 30,\n      \"enabled\": true\n    },\n    {\n      \"soundId\": \"keyboard\",\n      \"volume\": 20,\n      \"enabled\": true\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8081/api/mix/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "mix", ""]
+            },
+            "description": "Create a new mix with piano, vinyl, and keyboard sounds"
+          },
+          "response": []
+        },
+        {
+          "name": "Create New Mix - Nature Vibes",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"nature-vibes\",\n  \"sounds\": [\n    {\n      \"soundId\": \"rain\",\n      \"volume\": 80,\n      \"enabled\": true\n    },\n    {\n      \"soundId\": \"birds\",\n      \"volume\": 65,\n      \"enabled\": true\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8081/api/mix/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "mix", ""]
+            },
+            "description": "Create a new mix with rain and birds sounds"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081",
+      "type": "string"
+    }
+  ]
+}

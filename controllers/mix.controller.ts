@@ -8,7 +8,7 @@ export async function getMixById(
   next: NextFunction
 ) {
   try {
-    const mix = getMix(req, res, next);
+    const mix = await getMix(req, res, next);
 
     res.json({ result: mix });
   } catch (err) {
